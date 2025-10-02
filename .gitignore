@@ -1,0 +1,6 @@
+# Ignore pickle files
+*.pkl
+
+# Ignore Python cache
+__pycache__/
+s
