@@ -136,13 +136,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Title
-st.markdown("<h1 class='main-title'>🎬 Recommender System - MovieFLIX</h1>", unsafe_allow_html=True)
-
 tab1, tab2 = st.tabs(["App", "Code"]) 
 
 with tab1:
 
+    # Title
+    st.markdown("<h1 class='main-title'>🎬 Recommender System - MovieFLIX</h1>", unsafe_allow_html=True)
     st.markdown("<hr style='border:2px solid #FF4B4B; margin-bottom:30px;'>", unsafe_allow_html=True)
     
     # Load pickled data
