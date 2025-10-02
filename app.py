@@ -170,16 +170,10 @@ with tab1:
 with tab2:
 
     # Password check only for code tab
-    password = st.text_input("Enter password to view code:", type="password")
-    if password == "jbmlproject":
-        with open("app.py", "r") as f:
-            code = f.read()
-        st.code(code, language="python")
-    elif password:
-        st.warning("Incorrect password! Access denied.")
-    
     st.subheader("App Logic / Code")
-    code = """
+    password = st.text_input("Enter password to view code:", type="password")
+    if password == "jbmlprojects":
+        code = """
 import pickle
 import streamlit as st
 import requests
@@ -219,15 +213,12 @@ def recommend(movie):
 # ------------------ Streamlit UI ------------------ #
 st.title("🎬 Movie Recommender System")
 
-# Load pickled data
 movies = pickle.load(open('movies_dict.pkl', 'rb'))
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 movies_df = pd.DataFrame(movies)
 
-# Movie dropdown
 selected_movie = st.selectbox("Type or select a movie", movies_df['title'].values)
 
-# Show recommendations
 if st.button('Show Recommendation'):
     recommended_movie_names, recommended_movie_posters, recommended_movie_ids = recommend(selected_movie)
 
@@ -238,4 +229,6 @@ if st.button('Show Recommendation'):
             st.image(poster, caption=name)
             st.markdown(f"[More info]({tmdb_url})")
 """
-    st.code(code, language='python')
+        st.code(code, language="python")
+    elif password:
+        st.warning("Incorrect password! Access denied.")
