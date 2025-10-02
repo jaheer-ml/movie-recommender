@@ -6,28 +6,28 @@ import time
 import gdown
 import os
 
-
-# Google Drive file IDs
-movies_id = "1D9K9KqDydqAzCVV_JqaJBySNUqjG2LFD"   # movies_dict.pkl
-similarity_id = "1R9jFNzU1pN448hrcFhzqpuU9HLfFbFUy"  # similarity.pkl
-
-# File paths
+# Local filenames
 movies_path = "movies_dict.pkl"
 similarity_path = "similarity.pkl"
 
-# Download if not already present
+# Google Drive direct download links using file IDs
+movies_url = "https://drive.google.com/uc?id=1D9K9KqDydqAzCVV_JqaJBySNUqjG2LFD"
+similarity_url = "https://drive.google.com/uc?id=1R9jFNzU1pN448hrcFhzqpuU9HLfFbFUy"
+
+# Download files only if they don't exist locally
 if not os.path.exists(movies_path):
-    url = f"https://drive.google.com/uc?id={movies_id}"
-    gdown.download(url, movies_path, quiet=False)
+    gdown.download(movies_url, movies_path, quiet=False, fuzzy=True)
 
 if not os.path.exists(similarity_path):
-    url = f"https://drive.google.com/uc?id={similarity_id}"
-    gdown.download(url, similarity_path, quiet=False)
+    gdown.download(similarity_url, similarity_path, quiet=False, fuzzy=True)
 
-# Now load them
-movies = pickle.load(open(movies_path, 'rb'))
-similarity = pickle.load(open(similarity_path, 'rb'))
+# Load the downloaded files
+with open("movies_dict.pkl", "rb") as f:
+    movies = pickle.load(f)
 
+with open("similarity.pkl", "rb") as f:
+    similarity = pickle.load(f)
+    
 # ------------------ Fetch poster ------------------ #
 def fetch_poster(movie_id):
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=d7840b9543b6275389db4077192f2aee&language=en-US"
@@ -144,7 +144,7 @@ with tab1:
     st.markdown("<hr style='border:2px solid #FF4B4B; margin-bottom:30px;'>", unsafe_allow_html=True)
 
     # Load pickled data
-    movies_df = pd.DataFrame(movies_dict)
+    movies_df = pd.DataFrame(movies)
 
     # Movie dropdown
     selected_movie = st.selectbox("Type or select a movie", movies_df['title'].values, index=0)
