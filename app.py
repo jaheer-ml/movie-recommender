@@ -168,6 +168,16 @@ with tab1:
                 time.sleep(1)
 
 with tab2:
+
+    # Password check only for code tab
+    password = st.text_input("Enter password to view code:", type="password")
+    if password == "jbmlproject":
+        with open("app.py", "r") as f:
+            code = f.read()
+        st.code(code, language="python")
+    elif password:
+        st.warning("Incorrect password! Access denied.")
+    
     st.subheader("App Logic / Code")
     code = """
 import pickle
