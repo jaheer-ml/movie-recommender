@@ -3,6 +3,30 @@ import streamlit as st
 import requests
 import pandas as pd
 import time
+import gdown
+import os
+
+
+# Google Drive file IDs
+movies_id = "1D9K9KqDydqAzCVV_JqaJBySNUqjG2LFD"   # movies_dict.pkl
+similarity_id = "1R9jFNzU1pN448hrcFhzqpuU9HLfFbFUy"  # similarity.pkl
+
+# File paths
+movies_path = "movies_dict.pkl"
+similarity_path = "similarity.pkl"
+
+# Download if not already present
+if not os.path.exists(movies_path):
+    url = f"https://drive.google.com/uc?id={movies_id}"
+    gdown.download(url, movies_path, quiet=False)
+
+if not os.path.exists(similarity_path):
+    url = f"https://drive.google.com/uc?id={similarity_id}"
+    gdown.download(url, similarity_path, quiet=False)
+
+# Now load them
+movies = pickle.load(open(movies_path, 'rb'))
+similarity = pickle.load(open(similarity_path, 'rb'))
 
 # ------------------ Fetch poster ------------------ #
 def fetch_poster(movie_id):
@@ -120,9 +144,7 @@ with tab1:
     st.markdown("<hr style='border:2px solid #FF4B4B; margin-bottom:30px;'>", unsafe_allow_html=True)
 
     # Load pickled data
-    movies = pickle.load(open('movies_dict.pkl', 'rb'))
-    similarity = pickle.load(open('similarity.pkl', 'rb'))
-    movies_df = pd.DataFrame(movies)
+    movies_df = pd.DataFrame(movies_dict)
 
     # Movie dropdown
     selected_movie = st.selectbox("Type or select a movie", movies_df['title'].values, index=0)
